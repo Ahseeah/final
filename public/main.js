@@ -68,6 +68,65 @@ const rightBtnClick = () => {
 // then we update the document
 const updatePage = () => {
   console.log(launches[launchIndex])
+  let launch = launches[launchIndex]
+  missionName.innerText = launch.mission_name
+  //missionInfo.innerText = launches[launchIndex].details
+  if (launch.details != null) {
+    missionInfo.innerText = launch.details
+  } else {
+    missionInfo.innerText = 'No description available yet.'
+  }
+  loc.innerText = launch.launch_site.site_name_long
+  countdown(launch.launch_date_local)
+}
+
+const countdown = endDate => {
+  let days, hours, minutes, seconds
+
+  endDate = new Date(endDate).getTime()
+
+  if (isNaN(endDate)) {
+    return
+  }
+
+  setInterval(calculate, 1000)
+
+  function calculate() {
+    let startDate = new Date()
+    startDate = startDate.getTime()
+
+    let timeRemaining = parseInt((endDate - startDate) / 1000)
+    console.log(startDate)
+
+    if (timeRemaining >= 0) {
+      days = parseInt(timeRemaining / 86400)
+      timeRemaining = timeRemaining % 86400
+
+      hours = parseInt(timeRemaining / 3600)
+      timeRemaining = timeRemaining % 3600
+
+      minutes = parseInt(timeRemaining / 60)
+      timeRemaining = timeRemaining % 60
+
+      seconds = parseInt(timeRemaining)
+      // how to get this counter to show up
+      // create an html tag in your html file (like h1, p, h3)
+      // give it a class
+      // then in your JS file (right below here)
+      // you will call doc getby id then setting the innerhtml
+      // set it to an interpolated string
+      let countdownTimer = `${days} days, ${('0' + hours).slice(-2)} hours, ${(
+        '0' + minutes
+      ).slice(-2)} mins, ${('0' + seconds).slice(-2)} seconds`
+      counter.innerText = countdownTimer
+      // document.getElementById('days').innerHTML = parseInt(days, 10)
+      // document.getElementById('hours').innerHTML = ('0' + hours).slice(-2)
+      //document.getElementById('minutes').innerHTML = ('0' + minutes).slice(-2)
+      //document.getElementById('seconds').innerHTML = ('0' + seconds).slice(-2)
+    } else {
+      return
+    }
+  }
 }
 document
   .getElementById('left-arrow-btn')
