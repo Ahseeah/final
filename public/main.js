@@ -80,6 +80,8 @@ const updatePage = () => {
   countdown(launch.launch_date_local)
 }
 
+let interval
+
 const countdown = endDate => {
   let days, hours, minutes, seconds
 
@@ -89,7 +91,10 @@ const countdown = endDate => {
     return
   }
 
-  setInterval(calculate, 1000)
+  if (interval) {
+    clearInterval(interval)
+  }
+  interval = setInterval(calculate, 1000)
 
   function calculate() {
     let startDate = new Date()
